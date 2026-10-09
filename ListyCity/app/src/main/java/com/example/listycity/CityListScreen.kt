@@ -22,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +33,7 @@ fun CityListScreen(
     cities: List<City>,
     onAddCity: (City) -> Unit,
     onUpdateCity: (City, City) -> Unit,
+    onDeleteCity: (City) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var newCityName by remember { mutableStateOf("") }
@@ -129,7 +131,7 @@ fun CityListScreen(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 Button(
-                    modifier = Modifier.padding(vertical = 12.dp),
+                    modifier = Modifier.padding(vertical = 8.dp),
                     onClick = {
                         val cityToUpdate = selectedCity
                         if (
@@ -151,7 +153,34 @@ fun CityListScreen(
                         }
                     }
                 ) {
-                    Text("UPDATE CITY")
+                    Text(
+                        text = "UPDATE",
+                        style = TextStyle(
+                            fontSize = 8.sp,
+                        )
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Button(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    onClick = {
+                        val cityToDelete = selectedCity
+                        if (
+                            cityToDelete != null
+                        ) {
+                            onDeleteCity(cityToDelete)
+                        }
+                        selectedCity = null
+                    }
+                ) {
+                    Text(
+                        text = "DELETE",
+                        style = TextStyle(
+                            fontSize = 8.sp,
+                        )
+                    )
                 }
             }
         }
@@ -213,7 +242,8 @@ fun CityListScreenPreview() {
                 City("Calgary", "AB")
             ),
             onAddCity = {},
-            onUpdateCity = { _, _ -> }
+            onUpdateCity = { _, _ -> },
+            onDeleteCity = {}
         )
     }
 }
